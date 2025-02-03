@@ -1,0 +1,14 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "authstarter",
+            "Group": "Servers",
+            "Port": 5432,
+            "Username": "authstarter",
+            "Host": "db",
+            "MaintenanceDB": "authstarter",
+            "SSLMode": "prefer",
+            "PassFile": "/pgpass"
+        }
+    }
+}

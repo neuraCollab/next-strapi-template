@@ -14,20 +14,18 @@ import HouseCalculator from "@/components/ui/HouseCalculator"
 import FranchiseCards from "@/components/ui/FranchiseCard"
 import SEOContentBlock from "@/components/ui/TextMainPage"
 
-
-
 export function ExampleClientComponent() {
   const { data: session, status } = useSession()
 
   const { data, error } = useSWR("/team-members", fetcher)
-  const cards = new Array(1).fill(null); // Создаем массив из 13 элементов
+  const cards = new Array(1).fill(null) // Создаем массив из 13 элементов
 
   if (status === "loading") {
     return <p>Hang on there...</p>
   }
 
-  if (error) return <div>Ошибка загрузки</div>;
-  if (!data) return <div>Загрузка...</div>;
+  if (error) return <div>Ошибка загрузки</div>
+  if (!data) return <div>Загрузка...</div>
 
   if (status === "unauthenticated") {
     return (
@@ -49,7 +47,7 @@ export function ExampleClientComponent() {
           {cards.map((_, index) => (
             <div
               key={index}
-            // className={`transform transition-all ${index < 3 ? 'z-20 translate-y-[-20px]' : ''}`} // Первые 3 карточки немного наслаиваются
+              // className={`transform transition-all ${index < 3 ? 'z-20 translate-y-[-20px]' : ''}`} // Первые 3 карточки немного наслаиваются
             >
               <CardElement />
             </div>
@@ -66,10 +64,7 @@ export function ExampleClientComponent() {
       ClientComponent {status}{" "}
       {status === "authenticated" && (
         <>
-          {session?.user?.image && (
-            <Image src={session.user.image} alt="Avatar" width={100} height={100} priority />
-          )}
-
+          {session?.user?.image && <Image src={session.user.image} alt="Avatar" width={100} height={100} priority />}
 
           <div>{session.user?.name}</div>
           <Button onClick={() => signOut()}>Sign out</Button>

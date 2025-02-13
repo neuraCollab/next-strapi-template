@@ -1,4 +1,2 @@
-import { handlers } from "@/auth"
-
-// See: https://authjs.dev/guides/upgrade-to-v5#authenticating-server-side
+import { handlers } from "@/auth" // Referring to the auth.ts we just created
 export const { GET, POST } = handlers

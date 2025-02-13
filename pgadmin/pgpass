@@ -1,1 +1,1 @@
-db:5432:authstarter:authstarter:password
+postgresql:5432:postgres:postgres:Dragnil12

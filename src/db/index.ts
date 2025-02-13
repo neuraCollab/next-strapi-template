@@ -1,18 +1,20 @@
 import { drizzle } from "drizzle-orm/node-postgres"
 import { Pool } from "pg"
+import * as schema from "@/db/schema/authjs-required-schema"
 
-let sslMode = "require"
-if (process.env.NODE_ENV === "development") {
-  sslMode = "disable"
+declare global {
+  var db: ReturnType<typeof drizzle> | undefined
 }
 
+// Настройки подключения к PostgreSQL
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL + "?sslmode=" + sslMode,
+  connectionString: process.env.DATABASE_URL,
   max: 20,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 })
 
-export const db = drizzle(pool, { logger: true })
+// Создаём экземпляр Drizzle ORM
+export const db = globalThis.db || drizzle(pool, { schema })
 
-export * from "drizzle-orm"
+if (process.env.NODE_ENV !== "production") globalThis.db = db

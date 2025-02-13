@@ -6,7 +6,7 @@ npm install
 
 # Run migrations
 echo "Running migrations"
-npx drizzle-kit push:pg
+npx drizzle-kit up
 
 # Start the Next.JS application
 echo "Starting Next.JS application"

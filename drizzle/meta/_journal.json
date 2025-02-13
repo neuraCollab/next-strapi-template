@@ -1,12 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1711702761226,
-      "tag": "0000_robust_vector",
+      "version": "7",
+      "when": 1739383306298,
+      "tag": "0000_absent_young_avengers",
       "breakpoints": true
     }
   ]

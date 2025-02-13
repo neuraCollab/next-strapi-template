@@ -6,6 +6,9 @@ import AuthProvider from "@/app/context/AuthProvider"
 
 import "@/app/style.css"
 import { ThemeProvider } from "@/components/ThemeProvider"
+import SocialIcons from "@/components/ui/SocialIcons"
+import Footer from "@/components/ui/Footer"
+import Navbar from "@/components/ui/NavBar"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +29,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+
+          <Navbar />
+
           <AuthProvider>{children}</AuthProvider>
+          <SocialIcons />
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

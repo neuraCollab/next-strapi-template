@@ -1,14 +1,19 @@
-import { timestamp, pgTable, text, primaryKey, integer } from "drizzle-orm/pg-core"
+import { timestamp, pgTable, text, primaryKey, integer, boolean } from "drizzle-orm/pg-core"
 import type { AdapterAccount } from "@auth/core/adapters"
 
+// 🔹 Таблица пользователей
 export const users = pgTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
+  password: text("password"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  role: text("role").default("USER"), // 👤 Добавлено поле роли
+  isTwoFactorEnabled: boolean("isTwoFactorEnabled").default(false), // 🔐 2FA-флаг
 })
 
+// 🔹 Аккаунты OAuth
 export const accounts = pgTable(
   "account",
   {
@@ -33,6 +38,7 @@ export const accounts = pgTable(
   }),
 )
 
+// 🔹 Сессии
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
   userId: text("userId")
@@ -41,6 +47,7 @@ export const sessions = pgTable("session", {
   expires: timestamp("expires", { mode: "date" }).notNull(),
 })
 
+// 🔹 Токены верификации (для сброса пароля и подтверждения email)
 export const verificationTokens = pgTable(
   "verificationToken",
   {
@@ -52,3 +59,20 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
 )
+
+// 🔹 Двухфакторная аутентификация (2FA)
+export const twoFactorConfirmations = pgTable("twoFactorConfirmation", {
+  id: text("id").notNull().primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+})
+
+// 🔹 Логирование действий пользователей
+export const auditLogs = pgTable("auditLog", {
+  id: text("id").notNull().primaryKey(),
+  userId: text("userId").references(() => users.id, { onDelete: "cascade" }),
+  action: text("action").notNull(),
+  timestamp: timestamp("timestamp", { mode: "date" }).defaultNow(),
+})

@@ -41,7 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "drizzle-orm": "^0.31.2",
+    "drizzle-orm": "^0.39.3",
     "framer-motion": "^12.4.2",
     "fuzzy-search": "^3.2.1",
     "i": "^0.3.7",

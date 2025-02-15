@@ -4,18 +4,22 @@ const Card = () => {
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
-        <Image
-          className="rounded-t-lg"
-          src="/a.jpg" // ссылка на картинку
-          alt="Noteworthy technology acquisitions 2021"
-          width={400}
-          height={200}
-          layout="responsive"
-        />
+        <div className="w-full max-h-[200px] overflow-hidden rounded-t-lg">
+          <Image
+            className="object-cover w-full h-full"
+            src="/a.jpg" // ссылка на картинку
+            alt="Noteworthy technology acquisitions 2021"
+            width={400}
+            height={200}
+            layout="responsive"
+          />
+        </div>
       </a>
       <div className="p-5">
         <a href="#">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Noteworthy technology acquisitions 2021
+          </h5>
         </a>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.

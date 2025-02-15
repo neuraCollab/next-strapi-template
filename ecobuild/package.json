@@ -7,7 +7,7 @@
     "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
-    "seed": "strapi import -f ./data/export_20250116105447.tar.gz",
+    "seed": "strapi import -f ./data/export_20250214000434.tar.gz",
     "start": "strapi start",
     "strapi": "strapi"
   },

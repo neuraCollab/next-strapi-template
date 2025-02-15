@@ -4,6 +4,7 @@ import { Link } from "lucide-react"
 import React, { useState } from "react"
 import { FaFacebook, FaTwitter, FaInstagram, FaPhone } from "react-icons/fa"
 import useSWR from "swr"
+import { ThemeToggle } from "../ThemeToggle"
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data)
 
@@ -44,6 +45,7 @@ const Navbar = () => {
             <span className="sr-only">Open user menu</span>
             <img className="w-8 h-8 rounded-full" src="https://www.svgrepo.com/show/396954/mage.svg" alt="user photo" />
           </button>
+          <ThemeToggle />
 
           {/* Dropdown menu */}
           <div

@@ -1,111 +1,131 @@
-"use client"
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { useState } from "react"
+const stepsConfig = [
+  { label: "Площадь дома", name: "houseArea", type: "number", min: 20, max: 500, placeholder: "Площадь дома, м²" },
+  { label: "Площадь участка", name: "landArea", type: "number", min: 1, max: 50, placeholder: "Площадь участка, сот" },
+  {
+    label: "Этажность",
+    name: "floors",
+    type: "select",
+    options: [{ label: "1 этаж", value: 1 }, { label: "2 этажа", value: 2 }, { label: "3 этажа", value: 3 }],
+  },
+  {
+    label: "Регион",
+    name: "region",
+    type: "select",
+    options: [
+      { label: "Москва", value: "Москва" },
+      { label: "Санкт-Петербург", value: "Санкт-Петербург" },
+      { label: "Краснодарский край", value: "Краснодарский край" },
+      { label: "Свердловская область", value: "Свердловская область" },
+    ],
+  },
+];
 
-export default function HouseCalculator() {
-  const [area, setArea] = useState(50)
-  const [roofType, setRoofType] = useState("standard")
-  const [foundationType, setFoundationType] = useState("slab")
-  const [wallType, setWallType] = useState("brick")
-  const [floors, setFloors] = useState(1)
-  const [totalCost, setTotalCost] = useState(0)
+const schema = z.object({
+  houseArea: z.number().min(20).max(500),
+  landArea: z.number().min(1).max(50),
+  floors: z.number().min(1).max(3),
+  region: z.string(),
+});
 
-  const materialCosts = {
-    roof: { standard: 1000, premium: 3000, metal: 5000 },
-    foundation: { slab: 2000, pile: 4000, basement: 7000 },
-    wall: { brick: 3000, wood: 2500, concrete: 5000 },
-  }
+export default function ConstructionCalculator() {
+  const [step, setStep] = useState(0);
+  const { control, handleSubmit, getValues } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { houseArea: 100, landArea: 5, floors: 1, region: "Москва" },
+  });
 
-  const calculateCost = () => {
-    const baseCost = area * 500
-    const roofCost = materialCosts.roof[roofType]
-    const foundationCost = materialCosts.foundation[foundationType]
-    const wallCost = materialCosts.wall[wallType] * floors
+  const nextStep = () => setStep((prev) => Math.min(prev + 1, stepsConfig.length));
+  const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
 
-    const total = baseCost + roofCost + foundationCost + wallCost
-    setTotalCost(total)
-  }
+  const onSubmit = (data: any) => console.log("Расчёт:", data);
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Калькулятор стоимости дома</h2>
-
-      <div className="grid grid-cols-2 gap-4">
-        {/* Площадь дома */}
-        <div>
-          <label className="block text-gray-700">Площадь (кв. м.)</label>
-          <input
-            type="number"
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            value={area}
-            onChange={(e) => setArea(Number(e.target.value))}
-          />
-        </div>
-
-        {/* Этажность */}
-        <div>
-          <label className="block text-gray-700">Количество этажей</label>
-          <select
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            value={floors}
-            onChange={(e) => setFloors(Number(e.target.value))}
-          >
-            <option value={1}>1 этаж</option>
-            <option value={2}>2 этажа</option>
-            <option value={3}>3 этажа</option>
-          </select>
-        </div>
-
-        {/* Крыша */}
-        <div>
-          <label className="block text-gray-700">Тип крыши</label>
-          <select
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            value={roofType}
-            onChange={(e) => setRoofType(e.target.value)}
-          >
-            <option value="standard">Стандарт</option>
-            <option value="premium">Премиум</option>
-            <option value="metal">Металлочерепица</option>
-          </select>
-        </div>
-
-        {/* Фундамент */}
-        <div>
-          <label className="block text-gray-700">Тип фундамента</label>
-          <select
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            value={foundationType}
-            onChange={(e) => setFoundationType(e.target.value)}
-          >
-            <option value="slab">Монолитная плита</option>
-            <option value="pile">Свайный</option>
-            <option value="basement">С подвалом</option>
-          </select>
-        </div>
-
-        {/* Стены */}
-        <div>
-          <label className="block text-gray-700">Материал стен</label>
-          <select
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md"
-            value={wallType}
-            onChange={(e) => setWallType(e.target.value)}
-          >
-            <option value="brick">Кирпич</option>
-            <option value="wood">Дерево</option>
-            <option value="concrete">Бетон</option>
-          </select>
-        </div>
+    <div className="max-w-6xl mx-auto p-8">
+      {/* ШАГИ */}
+      <div className="flex justify-between items-center mb-8">
+        {stepsConfig.map((s, index) => (
+          <div key={index} className="flex flex-col items-center w-full">
+            <div className={`w-10 h-10 flex items-center justify-center rounded-full text-white text-sm font-bold
+              ${index === step ? "bg-green-500" : "bg-gray-300"}`}>
+              {index + 1}
+            </div>
+            <span className={`text-xs mt-2 ${index === step ? "text-green-600" : "text-gray-400"}`}>
+              {s.label}
+            </span>
+          </div>
+        ))}
       </div>
 
-      {/* Кнопка расчета */}
-      <button className="w-full mt-6 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700" onClick={calculateCost}>
-        Рассчитать стоимость
-      </button>
+      {/* КОНТЕНТ */}
+      <div className="bg-white shadow-lg rounded-lg flex max-h-[550px]">
+        {/* Левая часть с картинкой (ОГРАНИЧЕНА ПО ВЫСОТЕ) */}
+        <div className="w-1/2 hidden md:flex items-center justify-center p-6">
+          <img src="./a.jpg" alt="House" className="rounded-lg shadow-md max-h-[400px] w-full object-cover" />
+        </div>
 
-      {/* Итоговая стоимость */}
-      {totalCost > 0 && <div className="mt-4 text-lg font-bold text-gray-800">Итоговая стоимость: {totalCost.toLocaleString()} ₽</div>}
+        {/* Правая часть с формой */}
+        <div className="w-full md:w-1/2 p-8 flex flex-col justify-between">
+          <h2 className="text-2xl font-bold text-gray-800">Введите параметры дома</h2>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="flex-grow flex flex-col justify-between">
+            <div className="flex-grow">
+              <div className="mt-4">
+                <label className="block text-gray-700">{stepsConfig[step].placeholder}</label>
+                <Controller
+                  name={stepsConfig[step].name as any}
+                  control={control}
+                  render={({ field }) =>
+                    stepsConfig[step].type === "select" ? (
+                      <select {...field} className="w-full border p-3 rounded mt-2">
+                        {stepsConfig[step].options?.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input type="number" {...field} className="w-full border p-3 rounded mt-2" />
+                    )
+                  }
+                />
+              </div>
+            </div>
+          </form>
+
+          {/* КНОПКИ */}
+          <div className="flex justify-between mt-6">
+            <button
+              onClick={prevStep}
+              disabled={step === 0}
+              className={`px-6 py-3 rounded-full transition-shadow hover:shadow-lg
+                ${step === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 text-white hover:bg-gray-600"}`}
+            >
+              Назад
+            </button>
+
+            {step < stepsConfig.length - 1 ? (
+              <button
+                onClick={nextStep}
+                className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-shadow hover:shadow-lg"
+              >
+                Далее
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit(onSubmit)}
+                className="px-6 py-3 bg-green-500 text-white rounded-full hover:bg-green-600 transition-shadow hover:shadow-lg"
+              >
+                Рассчитать
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

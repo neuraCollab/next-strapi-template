@@ -12,6 +12,9 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/utils/cn"
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "examples": "@/components/examples",
+    "blocks": "@/components/blocks"
   }
 }

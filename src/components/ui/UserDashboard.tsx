@@ -1,81 +1,132 @@
-"use client"
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+import { FaHome, FaListAlt, FaClipboardList, FaStar, FaComments, FaWallet, FaShieldAlt, FaCogs, FaBell, FaUserSlash, FaBars } from "react-icons/fa";
 
-import Image from "next/image"
-import { useState } from "react"
+export default function UserDashboard() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [activeMenu, setActiveMenu] = useState("Dashboard");
 
-export default function PersonalDashboard() {
-  const [user, setUser] = useState({
-    name: "Helene Engels",
-    email: "helene@example.com",
-    address: "2 Miles Drive, NJ 071, New York, USA",
-    phone: "+1234 567 890",
-    accountType: "PRO Account",
-  })
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleMenuClick = (menu: string) => {
+    setActiveMenu(menu);
+  };
+
+  const menuItems = [
+    { name: "Dashboard", icon: <FaHome /> },
+    { name: "Order List", icon: <FaListAlt /> },
+    { name: "Order Detail", icon: <FaClipboardList /> },
+    { name: "Reviews", icon: <FaStar /> },
+    { name: "Chat", icon: <FaComments /> },
+    { name: "Wallet", icon: <FaWallet /> },
+    { name: "Security", icon: <FaShieldAlt /> },
+    { name: "Preferences", icon: <FaCogs /> },
+    { name: "Notification Settings", icon: <FaBell /> },
+    { name: "Account Deactivation", icon: <FaUserSlash /> },
+  ];
 
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-8">
-      <div className="mx-auto max-w-screen-lg px-4 2xl:px-0">
-        {/* Breadcrumb */}
-        <nav className="mb-4 flex" aria-label="Breadcrumb">
-          <ol className="inline-flex items-center space-x-1 md:space-x-2">
-            <li className="inline-flex items-center">
-              <a href="#" className="text-sm font-medium text-gray-700 hover:text-primary-600 dark:text-gray-400 dark:hover:text-white">
-                Home
-              </a>
-            </li>
-            <li className="flex items-center">
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400">/ My Account</span>
-            </li>
-          </ol>
-        </nav>
+    <div className="relative bg-[#f7f6f9] h-full min-h-screen font-sans flex">
+      {/* Sidebar */}
+      <nav className={`bg-white shadow-lg h-screen fixed top-0 left-0 overflow-auto z-50 transition-all duration-500 
+        ${isSidebarOpen ? "w-[250px]" : "w-0 invisible"}`}>
+        <div className="pt-8 pb-2 px-6 sticky top-0 bg-white min-h-[80px] z-50">
+          <a href="#" className="outline-none">
+            <Image src="/logo.svg" alt="logo" width={170} height={40} />
+          </a>
+        </div>
+        <div className="py-6 px-6">
+          <ul className="space-y-2">
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                <button
+                  onClick={() => handleMenuClick(item.name)}
+                  className={`menu-item text-sm flex items-center cursor-pointer rounded-md px-3 py-3 transition-all duration-300 w-full 
+                    ${activeMenu === item.name ? "text-green-700 bg-[#d9f3ea]" : "text-gray-800 hover:bg-[#d9f3ea]"}`}
+                >
+                  <span className="mr-4 text-lg">{item.icon}</span>
+                  <span>{item.name}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
 
-        <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">General Overview</h2>
+      {/* Toggle Sidebar Button */}
+      <button
+        onClick={toggleSidebar}
+        className="lg:hidden w-10 h-10 z-50 fixed top-5 left-5 cursor-pointer bg-[#007bff] flex items-center justify-center rounded-full text-white shadow-md transition-all duration-500"
+      >
+        <FaBars />
+      </button>
 
-        {/* User Info */}
-        <div className="flex items-center space-x-4 p-6 border border-gray-200 rounded-lg dark:border-gray-700">
-          <Image
-            className="h-16 w-16 rounded-lg"
-            src={"https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"}
-            alt="User avatar"
-            width={100}
-            height={100}
-            loader={({ src }) => src}
-          />
+      {/* Main Content */}
+      <section className="w-full lg:pl-[250px] transition-all duration-500">
+        <header className="z-50 bg-[#f7f6f9] sticky top-0 pt-8 px-8">
+          <div className="flex items-center justify-between">
+            {/* Search */}
+            <div className="flex items-center bg-white shadow-sm px-6 py-2 rounded-md w-full max-w-md">
+              <input
+                type="text"
+                placeholder="Search something..."
+                className="w-full text-sm bg-transparent outline-none"
+              />
+            </div>
 
-          <div>
-            <span className="mb-2 inline-block rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">
-              {user.accountType}
-            </span>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">{user.name}</h2>
-            <p className="text-gray-500 dark:text-gray-400">{user.email}</p>
-            <p className="text-gray-500 dark:text-gray-400">{user.phone}</p>
-            <p className="text-gray-500 dark:text-gray-400">{user.address}</p>
+            {/* Notifications */}
+            <div className="flex items-center gap-6">
+              <div className="relative bg-blue-200 p-2 rounded-lg cursor-pointer">
+                <FaBell className="text-blue-600 text-xl" />
+                <span className="absolute top-0 right-0 bg-blue-600 text-white text-xs px-1 rounded-full">3</span>
+              </div>
+              <div className="relative bg-red-200 p-2 rounded-lg cursor-pointer">
+                <FaComments className="text-red-600 text-xl" />
+                <span className="absolute top-0 right-0 bg-red-600 text-white text-xs px-1 rounded-full">5</span>
+              </div>
+
+              {/* Profile */}
+              <div className="flex items-center space-x-3 cursor-pointer">
+                <span className="text-gray-500 text-sm">Hi, John</span>
+                <Image src="/a.jpg" alt="profile-pic" width={38} height={38} className="rounded-full border-2 border-gray-300" />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <div className="p-8">
+          <h1 className="text-2xl font-semibold mb-4">{activeMenu}</h1>
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6">
+            {/* Example Cards */}
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="bg-white shadow-lg p-6 rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="bg-gray-200 p-3 rounded-lg">
+                    <FaListAlt className="text-blue-600 text-2xl" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800">Card {index + 1}</h3>
+                    <p className="text-gray-600 text-sm">Lorem ipsum dolor sit amet.</p>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <div className="flex justify-between text-sm text-gray-800">
+                    <p>25 GB</p>
+                    <p>50 GB</p>
+                  </div>
+                  <div className="bg-gray-300 rounded-full w-full h-2.5 mt-2">
+                    <div className="w-1/2 h-full bg-blue-600 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Statistics */}
-        <div className="grid grid-cols-2 gap-6 border-t border-gray-200 py-4 dark:border-gray-700 md:grid-cols-4">
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Orders Made</h3>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">24</p>
-          </div>
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Reviews Added</h3>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">16</p>
-          </div>
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Favorites</h3>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">8</p>
-          </div>
-          <div>
-            <h3 className="text-gray-500 dark:text-gray-400">Returns</h3>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">2</p>
-          </div>
-        </div>
-
-        {/* Edit Button */}
-        <button className="mt-4 px-5 py-2.5 bg-primary-700 text-white rounded-lg hover:bg-primary-800">Edit Your Data</button>
-      </div>
-    </section>
-  )
+      </section>
+    </div>
+  );
 }

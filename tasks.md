@@ -28,5 +28,9 @@ global:
 1. auth + reg +
 2. personal acc
 3. calculator +
-4. blog (strapi)
+4. blog (strapi) +
 5. main page, blog page, 1 article page, peronal account
+
+линый кабинет главная с инфой о себе и прошлыми заказами корзина (последние прочтенные блоги + предложение новостей)
+
+главная страница блог страница предложений с фильтрами (по категориям) о нас контакты

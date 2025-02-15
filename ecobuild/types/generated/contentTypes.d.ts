@@ -327,6 +327,362 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   }
 }
 
+export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
+  collectionName: "articles"
+  info: {
+    description: ""
+    displayName: "Articles"
+    pluralName: "articles"
+    singularName: "article"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    categories: Schema.Attribute.Relation<"manyToMany", "api::category.category">
+    content: Schema.Attribute.Blocks &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    description: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    dynamic_zone: Schema.Attribute.DynamicZone<["dynamic-zone.related-articles", "dynamic-zone.cta"]> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    image: Schema.Attribute.Media<"images" | "files" | "videos" | "audios"> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::article.article">
+    publishedAt: Schema.Attribute.DateTime
+    seo: Schema.Attribute.Component<"shared.seo", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    slug: Schema.Attribute.UID<"title"> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    title: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiBlogPageBlogPage extends Struct.SingleTypeSchema {
+  collectionName: "blog_pages"
+  info: {
+    description: ""
+    displayName: "/blog"
+    pluralName: "blog-pages"
+    singularName: "blog-page"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    dynamic_zone: Schema.Attribute.DynamicZone<
+      [
+        "dynamic-zone.testimonials",
+        "dynamic-zone.related-products",
+        "dynamic-zone.related-articles",
+        "dynamic-zone.pricing",
+        "dynamic-zone.launches",
+        "dynamic-zone.how-it-works",
+        "dynamic-zone.hero",
+        "dynamic-zone.form-next-to-section",
+        "dynamic-zone.features",
+        "dynamic-zone.faq",
+        "dynamic-zone.cta",
+        "dynamic-zone.brands",
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    heading: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::blog-page.blog-page">
+    publishedAt: Schema.Attribute.DateTime
+    seo: Schema.Attribute.Component<"shared.seo", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    sub_heading: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
+  collectionName: "categories"
+  info: {
+    description: ""
+    displayName: "Categories"
+    pluralName: "categories"
+    singularName: "category"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  attributes: {
+    articles: Schema.Attribute.Relation<"manyToMany", "api::article.article">
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::category.category"> & Schema.Attribute.Private
+    name: Schema.Attribute.String
+    product: Schema.Attribute.Relation<"manyToOne", "api::product.product">
+    publishedAt: Schema.Attribute.DateTime
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiCompletionCompletion extends Struct.CollectionTypeSchema {
+  collectionName: "completions"
+  info: {
+    description: ""
+    displayName: "completions"
+    pluralName: "completions"
+    singularName: "completion"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    description: Schema.Attribute.Text
+    icon: Schema.Attribute.Media<"images" | "files" | "videos" | "audios">
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::completion.completion"> & Schema.Attribute.Private
+    name: Schema.Attribute.String
+    publishedAt: Schema.Attribute.DateTime
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
+  collectionName: "faqs"
+  info: {
+    description: ""
+    displayName: "FAQ"
+    pluralName: "faqs"
+    singularName: "faq"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    answer: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::faq.faq">
+    publishedAt: Schema.Attribute.DateTime
+    question: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
+  collectionName: "globals"
+  info: {
+    description: ""
+    displayName: "Global"
+    pluralName: "globals"
+    singularName: "global"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    footer: Schema.Attribute.Component<"global.footer", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::global.global">
+    navbar: Schema.Attribute.Component<"global.navbar", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    publishedAt: Schema.Attribute.DateTime
+    seo: Schema.Attribute.Component<"shared.seo", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiHouseHouse extends Struct.CollectionTypeSchema {
+  collectionName: "houses"
+  info: {
+    description: ""
+    displayName: "houses"
+    pluralName: "houses"
+    singularName: "house"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    area: Schema.Attribute.Decimal
+    article: Schema.Attribute.String
+    bathrooms: Schema.Attribute.Integer
+    bedrooms: Schema.Attribute.Integer
+    completions: Schema.Attribute.Relation<"oneToMany", "api::completion.completion">
+    construction_time: Schema.Attribute.String
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    description: Schema.Attribute.Blocks
+    floors: Schema.Attribute.Integer
+    image: Schema.Attribute.Media<"images" | "files" | "videos" | "audios", true>
+    installment: Schema.Attribute.String
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::house.house"> & Schema.Attribute.Private
+    materials: Schema.Attribute.Relation<"oneToMany", "api::material.material">
+    price: Schema.Attribute.Decimal
+    price_note: Schema.Attribute.String
+    publishedAt: Schema.Attribute.DateTime
+    short_description: Schema.Attribute.Text
+    size: Schema.Attribute.String
+    slug: Schema.Attribute.UID<"title">
+    title: Schema.Attribute.String
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiLogoLogo extends Struct.CollectionTypeSchema {
+  collectionName: "logos"
+  info: {
+    description: ""
+    displayName: "Logos"
+    pluralName: "logos"
+    singularName: "logo"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  attributes: {
+    company: Schema.Attribute.String
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    image: Schema.Attribute.Media<"images"> & Schema.Attribute.Required
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::logo.logo"> & Schema.Attribute.Private
+    publishedAt: Schema.Attribute.DateTime
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiMaterialMaterial extends Struct.CollectionTypeSchema {
+  collectionName: "materials"
+  info: {
+    description: ""
+    displayName: "materials"
+    pluralName: "materials"
+    singularName: "material"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::material.material"> & Schema.Attribute.Private
+    name: Schema.Attribute.String
+    publishedAt: Schema.Attribute.DateTime
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
 export interface ApiNavItemNavItem extends Struct.CollectionTypeSchema {
   collectionName: "nav_items"
   info: {
@@ -348,6 +704,216 @@ export interface ApiNavItemNavItem extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
     url: Schema.Attribute.Text
+  }
+}
+
+export interface ApiPagePage extends Struct.CollectionTypeSchema {
+  collectionName: "pages"
+  info: {
+    description: ""
+    displayName: "Pages"
+    pluralName: "pages"
+    singularName: "page"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    dynamic_zone: Schema.Attribute.DynamicZone<
+      [
+        "dynamic-zone.hero",
+        "dynamic-zone.features",
+        "dynamic-zone.testimonials",
+        "dynamic-zone.how-it-works",
+        "dynamic-zone.brands",
+        "dynamic-zone.pricing",
+        "dynamic-zone.launches",
+        "dynamic-zone.cta",
+        "dynamic-zone.form-next-to-section",
+        "dynamic-zone.faq",
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::page.page">
+    publishedAt: Schema.Attribute.DateTime
+    seo: Schema.Attribute.Component<"shared.seo", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    slug: Schema.Attribute.UID &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }> &
+      Schema.Attribute.DefaultTo<"slug">
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiPlanPlan extends Struct.CollectionTypeSchema {
+  collectionName: "plans"
+  info: {
+    description: ""
+    displayName: "Plans"
+    pluralName: "plans"
+    singularName: "plan"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    additional_perks: Schema.Attribute.Component<"shared.perks", true>
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    CTA: Schema.Attribute.Component<"shared.button", false>
+    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::plan.plan"> & Schema.Attribute.Private
+    name: Schema.Attribute.String
+    perks: Schema.Attribute.Component<"shared.perks", true>
+    price: Schema.Attribute.Integer
+    product: Schema.Attribute.Relation<"manyToOne", "api::product.product">
+    publishedAt: Schema.Attribute.DateTime
+    sub_text: Schema.Attribute.String
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiProductPageProductPage extends Struct.SingleTypeSchema {
+  collectionName: "product_pages"
+  info: {
+    displayName: "/products"
+    pluralName: "product-pages"
+    singularName: "product-page"
+  }
+  options: {
+    draftAndPublish: false
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    dynamic_zone: Schema.Attribute.DynamicZone<
+      [
+        "dynamic-zone.testimonials",
+        "dynamic-zone.related-products",
+        "dynamic-zone.related-articles",
+        "dynamic-zone.pricing",
+        "dynamic-zone.launches",
+        "dynamic-zone.how-it-works",
+        "dynamic-zone.hero",
+        "dynamic-zone.form-next-to-section",
+        "dynamic-zone.features",
+        "dynamic-zone.faq",
+        "dynamic-zone.cta",
+        "dynamic-zone.brands",
+      ]
+    > &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    heading: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::product-page.product-page">
+    publishedAt: Schema.Attribute.DateTime
+    seo: Schema.Attribute.Component<"shared.seo", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    sub_heading: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiProductProduct extends Struct.CollectionTypeSchema {
+  collectionName: "products"
+  info: {
+    description: ""
+    displayName: "Products"
+    pluralName: "products"
+    singularName: "product"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    categories: Schema.Attribute.Relation<"oneToMany", "api::category.category">
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    description: Schema.Attribute.String
+    dynamic_zone: Schema.Attribute.DynamicZone<["dynamic-zone.related-products", "dynamic-zone.cta"]>
+    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>
+    images: Schema.Attribute.Media<"images" | "files" | "videos", true>
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::product.product"> & Schema.Attribute.Private
+    name: Schema.Attribute.String
+    perks: Schema.Attribute.Component<"shared.perks", true>
+    plans: Schema.Attribute.Relation<"oneToMany", "api::plan.plan">
+    price: Schema.Attribute.Integer
+    publishedAt: Schema.Attribute.DateTime
+    slug: Schema.Attribute.UID<"name">
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiRedirectionRedirection extends Struct.CollectionTypeSchema {
+  collectionName: "redirections"
+  info: {
+    displayName: "Redirection"
+    pluralName: "redirections"
+    singularName: "redirection"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    destination: Schema.Attribute.String
+    locale: Schema.Attribute.String & Schema.Attribute.Private
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::redirection.redirection"> & Schema.Attribute.Private
+    publishedAt: Schema.Attribute.DateTime
+    source: Schema.Attribute.String
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
   }
 }
 
@@ -373,6 +939,45 @@ export interface ApiTeamMemberTeamMember extends Struct.CollectionTypeSchema {
     slug: Schema.Attribute.UID<"name">
     updatedAt: Schema.Attribute.DateTime
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+  }
+}
+
+export interface ApiTestimonialTestimonial extends Struct.CollectionTypeSchema {
+  collectionName: "testimonials"
+  info: {
+    description: ""
+    displayName: "Testimonials"
+    pluralName: "testimonials"
+    singularName: "testimonial"
+  }
+  options: {
+    draftAndPublish: true
+  }
+  pluginOptions: {
+    i18n: {
+      localized: true
+    }
+  }
+  attributes: {
+    createdAt: Schema.Attribute.DateTime
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    locale: Schema.Attribute.String
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::testimonial.testimonial">
+    publishedAt: Schema.Attribute.DateTime
+    text: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
+    updatedAt: Schema.Attribute.DateTime
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> & Schema.Attribute.Private
+    user: Schema.Attribute.Component<"shared.user", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true
+        }
+      }>
   }
 }
 
@@ -780,8 +1385,23 @@ declare module "@strapi/strapi" {
       "admin::transfer-token": AdminTransferToken
       "admin::transfer-token-permission": AdminTransferTokenPermission
       "admin::user": AdminUser
+      "api::article.article": ApiArticleArticle
+      "api::blog-page.blog-page": ApiBlogPageBlogPage
+      "api::category.category": ApiCategoryCategory
+      "api::completion.completion": ApiCompletionCompletion
+      "api::faq.faq": ApiFaqFaq
+      "api::global.global": ApiGlobalGlobal
+      "api::house.house": ApiHouseHouse
+      "api::logo.logo": ApiLogoLogo
+      "api::material.material": ApiMaterialMaterial
       "api::nav-item.nav-item": ApiNavItemNavItem
+      "api::page.page": ApiPagePage
+      "api::plan.plan": ApiPlanPlan
+      "api::product-page.product-page": ApiProductPageProductPage
+      "api::product.product": ApiProductProduct
+      "api::redirection.redirection": ApiRedirectionRedirection
       "api::team-member.team-member": ApiTeamMemberTeamMember
+      "api::testimonial.testimonial": ApiTestimonialTestimonial
       "plugin::content-releases.release": PluginContentReleasesRelease
       "plugin::content-releases.release-action": PluginContentReleasesReleaseAction
       "plugin::i18n.locale": PluginI18NLocale

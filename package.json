@@ -42,7 +42,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.31.2",
-    "framer-motion": "^12.4.2",
+    "framer-motion": "^12.4.3",
     "fuzzy-search": "^3.2.1",
     "i": "^0.3.7",
     "lucide-react": "^0.395.0",

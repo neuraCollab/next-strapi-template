@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_dynamic_zone_components_header_phone_button_options",
+  "info": {
+    "displayName": "header_phone_button_options",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    }
+  }
+}

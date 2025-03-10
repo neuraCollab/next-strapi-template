@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_dynamic_zone_videos",
+  "info": {
+    "displayName": "Videos",
+    "icon": "music"
+  },
+  "options": {},
+  "attributes": {
+    "videos": {
+      "allowedTypes": ["images", "files", "videos", "audios"],
+      "type": "media",
+      "multiple": true
+    },
+    "Heaing": {
+      "type": "string"
+    }
+  }
+}

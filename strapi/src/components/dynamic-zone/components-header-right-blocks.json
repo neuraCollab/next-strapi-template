@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_dynamic_zone_components_header_right_blocks",
+  "info": {
+    "displayName": "header_right_blocks",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "phone_form": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.components-header-phone-forms"
+    }
+  }
+}

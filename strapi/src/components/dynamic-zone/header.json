@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_dynamic_zone_headers",
+  "info": {
+    "displayName": "Header",
+    "description": "",
+    "icon": "house"
+  },
+  "options": {},
+  "attributes": {
+    "backgroundVideo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "files", "videos"]
+    },
+    "header_left_block": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.components-header-left-blocks"
+    },
+    "header_right_block": {
+      "type": "component",
+      "repeatable": false,
+      "component": "dynamic-zone.components-header-right-blocks"
+    },
+    "button": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.button"
+    }
+  }
+}

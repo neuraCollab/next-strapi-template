@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_dynamic_zone_small_carts",
+  "info": {
+    "displayName": "small-carts",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string"
+    },
+    "Subheading": {
+      "type": "text"
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

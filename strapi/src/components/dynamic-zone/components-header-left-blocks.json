@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_dynamic_zone_components_header_left_blocks",
+  "info": {
+    "displayName": "header_left_blocks",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "text"
+    }
+  }
+}

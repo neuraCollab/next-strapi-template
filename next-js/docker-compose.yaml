@@ -1,0 +1,64 @@
+version: "3.8"
+
+name: authstarter
+
+services:
+  # NextJS app
+  app:
+    image: node:20.11.1-alpine3.19
+    container_name: nextjs-app
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - .:/app
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./.env.local
+        required: false
+    command: ["sh", "./dev.sh"]
+    depends_on:
+      - db
+    networks:
+      - authstarter-network
+
+  # Postgres database
+  db:
+    container_name: postgres-db
+    image: postgres:13
+    environment:
+      POSTGRES_USER: authstarter
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: authstarter
+    ports:
+      - "5432:5432"
+    volumes:
+      - authstarter-db-data:/var/lib/postgresql/data
+    networks:
+      - authstarter-network
+
+  # PGAdmin for managing the database
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_LISTEN_PORT: 5050
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+      - ./pgadmin/pgpass:/pgpass
+    ports:
+      - "5050:5050"
+    networks:
+      - authstarter-network
+
+volumes:
+  authstarter-db-data:
+
+networks:
+  authstarter-network:
+    driver: bridge

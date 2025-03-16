@@ -42,6 +42,20 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
 
 ---
 
+## Deployment
+
+1. **Strapi and next js**:
+  ```bash
+  pm2 start npm --name "starpi" -- run develop
+  pm2 save
+  
+  pm2 start npm --name "next-js" -- run dev
+  pm2 save
+  
+  pm2 startup
+
+  ```
+
 ## Getting Started Locally
 
 1. **Clone the repository**:
@@ -59,6 +73,8 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
    ```bash
     cd ./strapi
    npm  install
+   npx strapi ts:generate-types
+   npx strapi import -f "./data/export_20250116105447.tar.gz"  
    ```
 (also read local README in each dir)
 

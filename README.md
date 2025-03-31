@@ -9,8 +9,8 @@ This project combines two templates from the Strapi and Next.js communities, plu
 
 ---
 
-### Screenshot
-![Project Screenshot](./image.png)
+### Click on image to watch demo
+[![Demo Video](./image.png)](https://youtu.be/BsWpY6c8S-U)
 
 ---
 

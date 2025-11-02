@@ -17,6 +17,7 @@ yarn develop
 Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
 
 ```
+npx strapi import --file=./data/export_20250116105447.tar.gz
 npm run start
 # or
 yarn start

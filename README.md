@@ -71,7 +71,8 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
    ```
    and
    ```bash
-    cd ./strapi
+   cd ./strapi
+   #nvm use 20 (RECOMMENDED! need to install nvm)
    npm  install
    npx strapi ts:generate-types
    npx strapi import -f "./data/export_20250116105447.tar.gz"  

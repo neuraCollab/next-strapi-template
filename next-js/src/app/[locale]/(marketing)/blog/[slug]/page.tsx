@@ -19,7 +19,7 @@ export default async function SingleArticlePage({ params }: { params: { slug: st
   )
 
   if (!article) {
-    return <div>Blog not found</div>
+    return <div className="flex min-h-[50vh] items-center justify-center text-white">Post not found.</div>
   }
 
   const localizedSlugs = article.localizations?.reduce(

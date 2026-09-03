@@ -1,49 +1,19 @@
-import type { Metadata, Viewport } from "next"
-import { Inter as FontSans } from "next/font/google"
-
-import { cn } from "@/utils/cn"
-import { Locale, i18n } from "@/i18n.config"
-
 import "@/app/style.css"
 
-import { ThemeProvider } from "@/components/ThemeProvider"
-import SocialIcons from "@/components/ui/SocialIcons"
-import Footer from "@/components/ui/Footer"
-import Navbar from "@/components/ui/NavBar"
 import AuthProvider from "@/app/context/AuthProvider"
 import { SlugProvider } from "./context/SlugContext"
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-export const metadata: Metadata = {
-  title: "Next Auth Postgres Starter",
-  description: "An example of how to use NextJS with Auth.js and a PostgreSQL database",
-}
-
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#06b6d4" },
-    { media: "(prefers-color-scheme: dark)", color: "#06b6d4" },
-  ],
-}
-
-export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }))
-}
-
-export default function RootLayout({ children, params }: { children: React.ReactNode; params: { lang: Locale } }) {
+// The <html> and <body> tags are owned by `[locale]/layout.tsx`, which is the
+// only layout every route actually renders through. Keeping them here as well
+// used to produce invalid nested <html>/<body> markup (the browser silently
+// "fixes" this by hoisting/reordering elements, which is what caused the
+// footer/content overlap and other layout glitches across the site).
+// (ThemeProvider lives in `[locale]/layout.tsx` instead - next-themes injects
+// a script that must be a direct child of <body>.)
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={params.lang} suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <SlugProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </SlugProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <SlugProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </SlugProvider>
   )
 }

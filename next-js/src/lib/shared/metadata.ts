@@ -2,17 +2,17 @@ import { strapiImage } from "../strapi/strapiImage"
 
 export function generateMetadataObject(seo: any) {
   return {
-    title: seo?.metaTitle || "Default Title", // Fallback to 'Default Title' if title is not provided
-    description: seo?.metaDescription || "Default Description", // Fallback to 'Default Description'
+    title: seo?.metaTitle || "Next.js + Strapi Starter",
+    description: seo?.metaDescription || "A production-ready starter combining Next.js, Strapi, and Auth.js.",
     openGraph: {
-      title: seo?.ogTitle || seo?.metaTitle || "Default OG Title",
-      description: seo?.ogDescription || seo?.metaDescription || "Default OG Description",
+      title: seo?.ogTitle || seo?.metaTitle || "Next.js + Strapi Starter",
+      description: seo?.ogDescription || seo?.metaDescription || "A production-ready starter combining Next.js, Strapi, and Auth.js.",
       images: seo?.metaImage ? [{ url: strapiImage(seo?.metaImage.url) }] : [],
     },
     twitter: {
       card: seo?.twitterCard || "summary_large_image",
-      title: seo?.twitterTitle || seo?.metaTitle || "Default Twitter Title",
-      description: seo?.twitterDescription || seo?.metaDescription || "Default Twitter Description",
+      title: seo?.twitterTitle || seo?.metaTitle || "Next.js + Strapi Starter",
+      description: seo?.twitterDescription || seo?.metaDescription || "A production-ready starter combining Next.js, Strapi, and Auth.js.",
       images: seo?.twitterImage ? [{ url: seo.twitterImage }] : [],
     },
   }

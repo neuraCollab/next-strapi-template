@@ -44,7 +44,7 @@ export const config: NextAuthConfig = {
             isTwoFactorEnabled: users.isTwoFactorEnabled, // ✅ Добавляем поле двухфакторной аутентификации
           })
           .from(users)
-          .where(eq(users.email, credentials.email))
+          .where(eq(users.email, credentials.email as string))
           .limit(1)
 
         if (!existingUser.length) {
@@ -57,7 +57,7 @@ export const config: NextAuthConfig = {
           throw new Error("This account was created using OAuth. Please log in with GitHub or Yandex.")
         }
 
-        const isValidPassword = await compare(credentials.password, user.password)
+        const isValidPassword = await compare(credentials.password as string, user.password)
         if (!isValidPassword) {
           throw new Error("Invalid password")
         }
@@ -129,7 +129,7 @@ export const config: NextAuthConfig = {
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role
+        session.user.role = token.role as string
       }
 
       if (session.user) {
@@ -176,4 +176,4 @@ export const config: NextAuthConfig = {
   },
 }
 
-export const { handlers, auth, signIn, signOut, update } = NextAuth(config)
+export const { handlers, auth, signIn, signOut } = NextAuth(config)

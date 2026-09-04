@@ -1,3 +1,9 @@
+// Strapi-served media (article images, product images, etc.) is only ever
+// fetched from NEXT_PUBLIC_API_URL, so allow next/image to optimize it from
+// whatever host that points to - hardcoding "localhost" here meant every
+// image broke the moment the API URL pointed at a real deployment.
+const strapiUrl = process.env.NEXT_PUBLIC_API_URL ? new URL(process.env.NEXT_PUBLIC_API_URL) : null
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -6,8 +12,16 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      ...(strapiUrl
+        ? [
+            {
+              protocol: strapiUrl.protocol.replace(":", ""),
+              hostname: strapiUrl.hostname,
+              port: strapiUrl.port,
+            },
+          ]
+        : []),
     ],
-    domains: ["localhost"],
   },
   pageExtensions: ["ts", "tsx"],
   async redirects() {

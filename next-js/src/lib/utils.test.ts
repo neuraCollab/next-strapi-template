@@ -1,4 +1,4 @@
-import { cn } from "./cn"
+import { cn } from "./utils"
 
 it("correctly combines css classes", () => {
   const output = cn("text-red-500", "bg-blue-500")

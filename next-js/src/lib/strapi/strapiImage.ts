@@ -1,13 +1,10 @@
-import { unstable_noStore as noStore } from "next/cache"
-
+/**
+ * Resolves a Strapi media `url` (which Strapi returns as a path relative to
+ * itself, e.g. "/uploads/foo.png") to an absolute URL next/image can fetch.
+ */
 export function strapiImage(url: string): string {
-  noStore()
   if (url.startsWith("/")) {
-    if (!process.env.NEXT_PUBLIC_API_URL && document?.location.host.endsWith(".strapidemo.com")) {
-      return `https://${document.location.host.replace("client-", "api-")}${url}`
-    }
-
-    return process.env.NEXT_PUBLIC_API_URL + url
+    return `${process.env.NEXT_PUBLIC_API_URL ?? ""}${url}`
   }
   return url
 }

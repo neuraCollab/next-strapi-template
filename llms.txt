@@ -1,0 +1,39 @@
+# Next.js + Strapi Starter
+
+> A two-app starter template: a Next.js 14 (App Router) frontend with Auth.js
+> authentication, driven by a Strapi headless CMS over its REST API. Pages are composed
+> from an ordered list of CMS-configured "dynamic zone" blocks, so most page content is
+> edited in Strapi rather than hardcoded in React.
+
+Two independent npm projects live side by side in this repository: `next-js/` (the
+frontend) and `strapi/` (the CMS). They communicate only over HTTP
+(`NEXT_PUBLIC_API_URL`) and do not share a database — `strapi/` has its own content
+database, while `next-js/` has a separate Postgres database that holds only Auth.js
+user/session data.
+
+## Start here
+
+- [CLAUDE.md](CLAUDE.md): operating rules for AI agents — read this before making
+  changes, especially the "ground rules learned the hard way" section.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): full project map — directory layout,
+  the dynamic-zone content system with its component-mapping table, the auth flow,
+  caching strategy, and known gaps.
+- [README.md](README.md): human-oriented quick start (clone, install, run).
+
+## next-js (frontend)
+
+- [next-js/CLAUDE.md](next-js/CLAUDE.md): frontend-specific conventions.
+- [next-js/src/components/dynamic-zone/manager.tsx](next-js/src/components/dynamic-zone/manager.tsx): maps a Strapi `__component` string to a React component - the core of the CMS-driven page system.
+- [next-js/src/lib/strapi/fetchContentType.ts](next-js/src/lib/strapi/fetchContentType.ts): the single function that fetches from Strapi, with the caching rules every page depends on.
+- [next-js/src/auth.ts](next-js/src/auth.ts): Auth.js v5 config (GitHub, Yandex, and email/password credentials).
+
+## strapi (CMS)
+
+- [strapi/CLAUDE.md](strapi/CLAUDE.md): CMS-specific conventions.
+- [strapi/src/api](strapi/src/api): content-type schemas (articles, pages, products, ...).
+- [strapi/src/components](strapi/src/components): the reusable Strapi components that back each dynamic-zone block.
+- [strapi/src/middlewares/deepPopulate.ts](strapi/src/middlewares/deepPopulate.ts): auto-populates relations/media/dynamic-zones on every GET request that doesn't specify its own `populate` query - explains why most frontend fetches don't pass one.
+
+## Optional
+
+- [next-js/.env.example](next-js/.env.example) / [strapi/.env.example](strapi/.env.example): required environment variables for each app.

@@ -6,8 +6,6 @@ import ClientSlugHandler from "../ClientSlugHandler"
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   try {
-    console.log(`🔍 Fetching metadata for slug=${params.slug}, locale=${params.locale}`)
-
     const pageData = await fetchContentType(
       "pages",
       {
@@ -34,8 +32,6 @@ export async function generateMetadata({ params }: { params: { locale: string; s
 
 export default async function Page({ params }: { params: { locale: string; slug: string } }) {
   try {
-    console.log(`🔍 Fetching page content for slug=${params.slug}, locale=${params.locale}`)
-
     const pageData = await fetchContentType(
       "pages",
       {

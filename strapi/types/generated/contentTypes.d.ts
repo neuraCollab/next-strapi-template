@@ -757,49 +757,6 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiHouseHouse extends Struct.CollectionTypeSchema {
-  collectionName: 'houses';
-  info: {
-    description: '';
-    displayName: 'houses';
-    pluralName: 'houses';
-    singularName: 'house';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    area: Schema.Attribute.Decimal;
-    article: Schema.Attribute.String;
-    bathrooms: Schema.Attribute.Integer;
-    bedrooms: Schema.Attribute.Integer;
-    construction_time: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.Blocks;
-    floors: Schema.Attribute.Integer;
-    image: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    installment: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::house.house'> &
-      Schema.Attribute.Private;
-    price: Schema.Attribute.Decimal;
-    price_note: Schema.Attribute.String;
-    publishedAt: Schema.Attribute.DateTime;
-    short_description: Schema.Attribute.Text;
-    size: Schema.Attribute.String;
-    slug: Schema.Attribute.UID<'title'>;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiLogoLogo extends Struct.CollectionTypeSchema {
   collectionName: 'logos';
   info: {
@@ -1660,7 +1617,6 @@ declare module '@strapi/strapi' {
       'api::faq-slide.faq-slide': ApiFaqSlideFaqSlide;
       'api::faq.faq': ApiFaqFaq;
       'api::global.global': ApiGlobalGlobal;
-      'api::house.house': ApiHouseHouse;
       'api::logo.logo': ApiLogoLogo;
       'api::page.page': ApiPagePage;
       'api::plan.plan': ApiPlanPlan;

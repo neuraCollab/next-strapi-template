@@ -2,12 +2,11 @@ import NextAuth, { type NextAuthConfig } from "next-auth"
 import GitHub from "@auth/core/providers/github"
 import YandexProvider from "next-auth/providers/yandex"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { randomBytes, randomUUID } from "crypto"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import { db } from "@/db"
 import { compare } from "bcryptjs"
 import { eq } from "drizzle-orm"
-import { users, sessions, twoFactorConfirmations, accounts } from "@/db/schema/authjs-required-schema"
+import { users, twoFactorConfirmations, accounts } from "@/db/schema/authjs-required-schema"
 
 export const config: NextAuthConfig = {
   pages: {
@@ -28,8 +27,6 @@ export const config: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("🔹 Credentials login attempt:", credentials)
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Missing email or password")
         }
@@ -78,8 +75,6 @@ export const config: NextAuthConfig = {
           await db.delete(twoFactorConfirmations).where(eq(twoFactorConfirmations.userId, user.id))
         }
 
-        console.log("✅ Credentials login success:", user)
-
         return {
           id: user.id,
           name: user.name,
@@ -93,12 +88,6 @@ export const config: NextAuthConfig = {
   adapter: DrizzleAdapter(db),
 
   session: { strategy: "jwt" },
-  // session: {
-  //   strategy: "database",
-  //   maxAge: 30 * 24 * 60 * 60,
-  //   updateAge: 24 * 60 * 60,
-  //   generateSessionToken: () => randomUUID?.() ?? randomBytes(32).toString("hex"),
-  // },
 
   events: {
     async linkAccount({ user }) {
@@ -108,8 +97,6 @@ export const config: NextAuthConfig = {
 
   callbacks: {
     async signIn({ user, account }) {
-      console.log("SignIn callback:", { user, account })
-
       if (account?.provider !== "credentials") return true
 
       const existingUser = await db.select({ emailVerified: users.emailVerified }).from(users).where(eq(users.id, user.id)).limit(1)
@@ -122,8 +109,6 @@ export const config: NextAuthConfig = {
     },
 
     async session({ token, session }) {
-      console.log("🔹 session callback BEFORE:", { token, session })
-
       if (token.sub && session.user) {
         session.user.id = token.sub
       }
@@ -139,13 +124,10 @@ export const config: NextAuthConfig = {
         session.user.isOAuth = token.isOAuth as boolean
       }
 
-      console.log("✅ session callback AFTER:", session)
       return session
     },
 
     async jwt({ token }) {
-      console.log("🔹 jwt callback BEFORE:", token)
-
       if (!token.sub) return token
 
       const existingUser = await db
@@ -170,7 +152,6 @@ export const config: NextAuthConfig = {
       token.role = existingUser[0].role
       token.isTwoFactorEnabled = existingUser[0].isTwoFactorEnabled
 
-      console.log("✅ jwt callback AFTER:", token)
       return token
     },
   },

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 export default async function Products({ params }: { params: { locale: string } }) {
   // Fetch the product-page and products data
-  const productPage = await fetchContentType(
+  const productPageData = await fetchContentType(
     "product-page",
     {
       filters: {
@@ -41,7 +41,10 @@ export default async function Products({ params }: { params: { locale: string } 
     },
     true,
   )
-  const products = await fetchContentType("products")
+  const productsData = await fetchContentType("products")
+
+  const productPage = productPageData || { heading: "Products", sub_heading: "Browse our catalog." }
+  const products = productsData?.data ?? []
 
   const localizedSlugs = productPage.localizations?.reduce(
     (acc: Record<string, string>, localization: any) => {
@@ -50,7 +53,7 @@ export default async function Products({ params }: { params: { locale: string } 
     },
     { [params.locale]: "products" },
   )
-  const featured = products?.data.filter((product: { featured: boolean }) => product.featured)
+  const featured = products.filter((product: { featured: boolean }) => product.featured)
 
   return (
     <div className="relative overflow-hidden w-full">
@@ -65,7 +68,7 @@ export default async function Products({ params }: { params: { locale: string } 
         </Heading>
         <Subheading className="max-w-3xl mx-auto">{productPage.sub_heading}</Subheading>
         <Featured products={featured} locale={params.locale} />
-        <ProductItems products={products?.data} locale={params.locale} />
+        <ProductItems products={products} locale={params.locale} />
       </Container>
     </div>
   )

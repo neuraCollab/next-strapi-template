@@ -3,6 +3,23 @@ import PageContent from "@/lib/shared/PageContent"
 import fetchContentType from "@/lib/strapi/fetchContentType"
 import { generateMetadataObject } from "@/lib/shared/metadata"
 import ClientSlugHandler from "../ClientSlugHandler"
+import { Container } from "@/components/container"
+import { Heading } from "@/components/elements/heading"
+import { Subheading } from "@/components/elements/subheading"
+import { Button } from "@/components/elements/button"
+import { Link } from "next-view-transitions"
+
+const PageMessage = ({ locale, title, message }: { locale: string; title: string; message: string }) => (
+  <Container className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+    <Heading as="h1" size="sm">
+      {title}
+    </Heading>
+    <Subheading>{message}</Subheading>
+    <Button as={Link} href={`/${locale}`} className="mt-6">
+      Back home
+    </Button>
+  </Container>
+)
 
 export async function generateMetadata({ params }: { params: { locale: string; slug: string } }): Promise<Metadata> {
   try {
@@ -45,7 +62,7 @@ export default async function Page({ params }: { params: { locale: string; slug:
 
     if (!pageData) {
       console.warn(`⚠ No page data found for slug=${params.slug}, locale=${params.locale}`)
-      return <h1>Page not found</h1>
+      return <PageMessage locale={params.locale} title="Page not found" message="We couldn't find the page you're looking for." />
     }
 
     const localizedSlugs = pageData.localizations?.reduce(
@@ -64,6 +81,6 @@ export default async function Page({ params }: { params: { locale: string; slug:
     )
   } catch (error) {
     console.error("❌ Error loading page:", error)
-    return <h1>Something went wrong</h1>
+    return <PageMessage locale={params.locale} title="Something went wrong" message="Please try again in a moment." />
   }
 }

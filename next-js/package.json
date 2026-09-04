@@ -45,7 +45,6 @@
     "flowbite": "^3.1.2",
     "framer-motion": "^12.4.2",
     "fuzzy-search": "^3.2.1",
-    "i": "^0.3.7",
     "lucide-react": "^0.395.0",
     "mini-svg-data-uri": "^1.4.4",
     "negotiator": "^1.0.0",
@@ -53,7 +52,6 @@
     "next-auth": "^5.0.0-beta.19",
     "next-themes": "^0.3.0",
     "next-view-transitions": "^0.3.4",
-    "npm": "^11.1.0",
     "pg": "^8.12.0",
     "qs": "^6.14.0",
     "react": "^18.3.1",
@@ -71,7 +69,6 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.173.0",
     "three-globe": "^2.41.12",
-    "tsparticles-slim": "^2.12.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

@@ -30,20 +30,25 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 }
 
 export default async function Blog({ params }: { params: { locale: string; slug: string } }) {
-  const blogPage = await fetchContentType(
-    "blog-page",
-    {
-      filters: { locale: params.locale },
-    },
-    true,
-  )
-  const articles = await fetchContentType(
-    "articles",
-    {
-      filters: { locale: params.locale },
-    },
-    false,
-  )
+  const [blogPageData, articlesData] = await Promise.all([
+    fetchContentType(
+      "blog-page",
+      {
+        filters: { locale: params.locale },
+      },
+      true,
+    ),
+    fetchContentType(
+      "articles",
+      {
+        filters: { locale: params.locale },
+      },
+      false,
+    ),
+  ])
+
+  const blogPage = blogPageData || { heading: "Blog", sub_heading: "Latest articles and updates." }
+  const articles = articlesData?.data ? articlesData : { data: [] }
 
   const localizedSlugs = blogPage.localizations?.reduce(
     (acc: Record<string, string>, localization: any) => {

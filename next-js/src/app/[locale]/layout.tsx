@@ -8,9 +8,9 @@ import { CartProvider } from "@/context/cart-context"
 import { cn } from "@/lib/utils"
 import { ViewTransitions } from "next-view-transitions"
 import fetchContentType from "@/lib/strapi/fetchContentType"
-import SocialIcons from "@/components/ui/SocialIcons"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
+import { ThemeProvider } from "@/components/ThemeProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,14 +38,15 @@ export default async function LocaleLayout({ children, params: { locale } }: { c
   const pageData = await fetchContentType("global", { filters: { locale } }, true)
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <ViewTransitions>
         <CartProvider>
-          <body className={cn(inter.className, "bg-charcoal antialiased h-full w-full overflow-hidden")}>
-            <Navbar data={pageData.navbar} locale={locale} />
-            {children}
-            <SocialIcons />
-            <Footer data={pageData.footer} locale={locale} />
+          <body className={cn(inter.className, "bg-charcoal antialiased min-h-screen w-full flex flex-col")} suppressHydrationWarning>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              <Navbar data={pageData.navbar} locale={locale} />
+              <main className="flex-1">{children}</main>
+              <Footer data={pageData.footer} locale={locale} />
+            </ThemeProvider>
           </body>
         </CartProvider>
       </ViewTransitions>

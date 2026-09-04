@@ -9,11 +9,6 @@ This project combines two templates from the Strapi and Next.js communities, plu
 
 ---
 
-### Click on image to watch demo
-[![Demo Video](./image.png)](https://youtu.be/BsWpY6c8S-U)
-
----
-
 ## Introduction
 
 This is a simple [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) boilerplate that uses [Auth.js](https://authjs.dev/) for authentication and session management. When a user logs in, their data is upserted to a [PostgreSQL](https://www.postgresql.org/) database with Auth.js’s [@auth/drizzle-adapter](https://authjs.dev/reference/adapter/drizzle).
@@ -42,20 +37,6 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
 
 ---
 
-## Deployment
-
-1. **Strapi and next js**:
-  ```bash
-  pm2 start npm --name "starpi" -- run develop
-  pm2 save
-  
-  pm2 start npm --name "next-js" -- run dev
-  pm2 save
-  
-  pm2 startup
-
-  ```
-
 ## Getting Started Locally
 
 1. **Clone the repository**:
@@ -67,7 +48,7 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
 2. **Install dependencies**:
    ```bash
    cd ./next-js
-   pnpm install
+   npm install
    ```
    and
    ```bash
@@ -75,9 +56,7 @@ The “dynamic-zone” concept allows you to create or edit pages in Strapi’s 
    #nvm use 20 (RECOMMENDED! need to install nvm)
    npm  install
    npx strapi ts:generate-types
-   npx strapi import -f "./data/export_20250116105447.tar.gz"  
    ```
-(also read local README in each dir)
 
 3. **Configure environment**:
    - Create a `.env.local` file (ignored by Git) for storing secrets:
@@ -152,4 +131,3 @@ This project inherits licenses from the original templates. Please refer to thei
 ---
 
 Happy coding! If you run into any issues or have suggestions, feel free to open an issue or submit a pull request.
-```

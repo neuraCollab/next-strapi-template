@@ -37,7 +37,7 @@ export const BlogCard = ({ article, locale }: { article: Article; locale: string
               </p>
             ))}
           </div>
-          <p className="text-lg md:text-4xl font-bold mb-4">
+          <p className="text-lg md:text-4xl font-bold mb-4 text-white">
             <Balancer>{article.title}</Balancer>
           </p>
           <p className="text-left text-base md:text-xl mt-2 text-muted">{truncate(article.description, 500)}</p>
@@ -89,7 +89,7 @@ export const BlogCardVertical = ({ article, locale }: { article: Article; locale
               </p>
             ))}
           </div>
-          <p className="text-lg md:text-xl font-bold mb-4">
+          <p className="text-lg md:text-xl font-bold mb-4 text-white">
             <Balancer>{article.title}</Balancer>
           </p>
           <p className="text-left text-sm md:text-base mt-2 text-muted">{truncate(article.description, 500)}</p>

@@ -12,20 +12,25 @@ interface Props {
   locale: string
 }
 
+// Note: these are rendered on the server (no `ssr: false`) so the homepage
+// and other CMS-driven pages have real content in the initial HTML response
+// instead of shipping an empty shell that only fills in after the client JS
+// bundle loads and hydrates - that client-only round trip was a major cause
+// of the slow first paint on content pages.
 const componentMapping: { [key: string]: any } = {
-  "dynamic-zone.header": dynamic(() => import("./header").then((mod) => mod.Header), { ssr: false }),
-  "dynamic-zone.hero": dynamic(() => import("./hero").then((mod) => mod.Hero), { ssr: false }),
-  "dynamic-zone.features": dynamic(() => import("./features").then((mod) => mod.Features), { ssr: false }),
-  "dynamic-zone.testimonials": dynamic(() => import("./testimonials").then((mod) => mod.Testimonials), { ssr: false }),
-  "dynamic-zone.how-it-works": dynamic(() => import("./how-it-works").then((mod) => mod.HowItWorks), { ssr: false }),
-  "dynamic-zone.brands": dynamic(() => import("./brands").then((mod) => mod.Brands), { ssr: false }),
-  "dynamic-zone.pricing": dynamic(() => import("./pricing").then((mod) => mod.Pricing), { ssr: false }),
-  "dynamic-zone.launches": dynamic(() => import("./launches").then((mod) => mod.Launches), { ssr: false }),
-  "dynamic-zone.cta": dynamic(() => import("./cta").then((mod) => mod.CTA), { ssr: false }),
-  "dynamic-zone.form-next-to-section": dynamic(() => import("./form-next-to-section").then((mod) => mod.FormNextToSection), { ssr: false }),
-  "dynamic-zone.faq": dynamic(() => import("./faq").then((mod) => mod.FAQ), { ssr: false }),
-  "dynamic-zone.related-products": dynamic(() => import("./related-products").then((mod) => mod.RelatedProducts), { ssr: false }),
-  "dynamic-zone.related-articles": dynamic(() => import("./related-articles").then((mod) => mod.RelatedArticles), { ssr: false }),
+  "dynamic-zone.header": dynamic(() => import("./header").then((mod) => mod.Header)),
+  "dynamic-zone.hero": dynamic(() => import("./hero").then((mod) => mod.Hero)),
+  "dynamic-zone.features": dynamic(() => import("./features").then((mod) => mod.Features)),
+  "dynamic-zone.testimonials": dynamic(() => import("./testimonials").then((mod) => mod.Testimonials)),
+  "dynamic-zone.how-it-works": dynamic(() => import("./how-it-works").then((mod) => mod.HowItWorks)),
+  "dynamic-zone.brands": dynamic(() => import("./brands").then((mod) => mod.Brands)),
+  "dynamic-zone.pricing": dynamic(() => import("./pricing").then((mod) => mod.Pricing)),
+  "dynamic-zone.launches": dynamic(() => import("./launches").then((mod) => mod.Launches)),
+  "dynamic-zone.cta": dynamic(() => import("./cta").then((mod) => mod.CTA)),
+  "dynamic-zone.form-next-to-section": dynamic(() => import("./form-next-to-section").then((mod) => mod.FormNextToSection)),
+  "dynamic-zone.faq": dynamic(() => import("./faq").then((mod) => mod.FAQ)),
+  "dynamic-zone.related-products": dynamic(() => import("./related-products").then((mod) => mod.RelatedProducts)),
+  "dynamic-zone.related-articles": dynamic(() => import("./related-articles").then((mod) => mod.RelatedArticles)),
 }
 
 const DynamicZoneManager: React.FC<Props> = ({ dynamicZone, locale }) => {

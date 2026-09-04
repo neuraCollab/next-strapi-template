@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Link } from "next-view-transitions"
 import { LocaleSwitcher } from "../locale-switcher"
+import { NavAuthControls } from "./nav-auth-controls"
 
 type Props = {
   leftNavbarItems: {
@@ -72,16 +73,13 @@ export const DesktopNavbar = ({ leftNavbarItems, rightNavbarItems, logo, locale 
       <div className="flex space-x-2 items-center">
         <LocaleSwitcher currentLocale={locale} />
 
-        {rightNavbarItems.map((item, index) => (
-          <Button
-            key={item.text}
-            variant={index === rightNavbarItems.length - 1 ? "primary" : "simple"}
-            as={Link}
-            href={`/${locale}${item.URL}`}
-          >
+        {rightNavbarItems?.map((item) => (
+          <Button key={item.text} variant="simple" as={Link} href={`/${locale}${item.URL}`}>
             {item.text}
           </Button>
         ))}
+
+        <NavAuthControls locale={locale} />
       </div>
     </motion.div>
   )

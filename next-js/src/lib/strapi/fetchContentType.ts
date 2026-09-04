@@ -44,11 +44,23 @@ export default async function fetchContentType(
     // Construct the full URL for the API request
     const url = new URL(`api/${contentType}`, process.env.NEXT_PUBLIC_API_URL)
 
-    // Perform the fetch request with the provided query parameters
-    const response = await fetch(`${url.href}?${qs.stringify(queryParams)}`, {
-      method: "GET",
-      cache: "no-store",
-    })
+    // Perform the fetch request with the provided query parameters.
+    // Draft-mode previews must always hit Strapi directly, but regular
+    // requests use Next.js's Data Cache with a short revalidation window -
+    // fetching every single content type on every request with no caching
+    // at all (the previous behavior) was a major cause of slow page loads.
+    const response = await fetch(
+      `${url.href}?${qs.stringify(queryParams)}`,
+      isEnabled
+        ? {
+            method: "GET",
+            cache: "no-store",
+          }
+        : {
+            method: "GET",
+            next: { revalidate: 60 },
+          },
+    )
 
     // console.log("Fetching:", `${url.href}?${qs.stringify(queryParams)}`)
 

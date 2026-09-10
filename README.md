@@ -1,3 +1,4 @@
+![LaunchPad](https://raw.githubusercontent.com/strapi/LaunchPad/main/LaunchPad.jpg)
 
 # Next.js + Auth.js + Drizzle Starter
 
@@ -11,29 +12,7 @@ This project combines two templates from the Strapi and Next.js communities, plu
 
 ## Introduction
 
-This is a simple [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) boilerplate that uses [Auth.js](https://authjs.dev/) for authentication and session management. When a user logs in, their data is upserted to a [PostgreSQL](https://www.postgresql.org/) database with Auth.js’s [@auth/drizzle-adapter](https://authjs.dev/reference/adapter/drizzle).
-
-The SQL models required by Auth.js are available in the [database models](https://authjs.dev/getting-started/adapters#models) documentation. This project uses [@auth/drizzle-adapter](https://authjs.dev/reference/adapter/drizzle) so we can rely on the pre-defined Drizzle schema for PostgreSQL to generate correct migrations.
-
-Unlike the original Docker-based template, this version is meant to run **locally**. You can set up your own local database (PostgreSQL) or use any remote database connection you prefer.
-
----
-
-## Project Structure
-
-**Main folder to explore**: `src/app`
-
-- **`layout.tsx`**  
-  Provides a global layout for the entire application. It includes providers (e.g., context providers) and handles locale setup.
-
-- **`[locale]` folder**  
-  Almost all pages reside here, organized by locale. For example, you might have `en`, `fr`, or other language folders.
-
-- **`[locale]/marketing/[slug]`**  
-  Demonstrates how you can create pages purely from Strapi, without writing extra code. The project is configured to load predefined “dynamic-zone” components that are mapped to Strapi fields.
-
-### Dynamic Zone & Strapi
-The “dynamic-zone” concept allows you to create or edit pages in Strapi’s admin panel. You can drag and drop different blocks (hero sections, cards, etc.) to build pages. Then, Next.js automatically renders them based on the content definition, with minimal or no additional coding.
+A [Next.js](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/) boilerplate using [Auth.js](https://authjs.dev/) for authentication, with user data persisted to [PostgreSQL](https://www.postgresql.org/) via Auth.js's [@auth/drizzle-adapter](https://authjs.dev/reference/adapter/drizzle). Unlike the original Docker-based template, this version runs **locally** against any PostgreSQL instance you provide.
 
 ---
 

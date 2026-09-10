@@ -16,6 +16,14 @@ export const ProductItems = ({
   products: Product[]
   locale: string
 }) => {
+  if (!products || products.length === 0) {
+    return (
+      <div className="py-20 text-center">
+        <p className="text-neutral-500">No products yet. Add some in the Strapi admin to see them here.</p>
+      </div>
+    )
+  }
+
   return (
     <div className="py-20">
       <h2 className="text-2xl md:text-4xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-white to-white mb-2">
@@ -32,18 +40,21 @@ export const ProductItems = ({
 }
 
 const ProductItem = ({ product, locale }: { product: Product; locale: string }) => {
+  const imageUrl = product?.images?.[0]?.url
   return (
     <Link href={`/${locale}/products/${product.slug}` as never} className="group relative block">
-      <div className="relative border border-neutral-800  rounded-md overflow-hidden">
+      <div className="relative border border-neutral-800 rounded-md overflow-hidden bg-neutral-900 aspect-square">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black transition-all duration-200 z-30" />
 
-        <Image
-          src={product?.images && strapiImage(product?.images[0]?.url)}
-          alt={product.name}
-          width={600}
-          height={600}
-          className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
-        />
+        {imageUrl && (
+          <Image
+            src={strapiImage(imageUrl)}
+            alt={product.name}
+            width={600}
+            height={600}
+            className="h-full w-full object-cover group-hover:scale-105 transition duration-200"
+          />
+        )}
       </div>
 
       <div className="mt-8">

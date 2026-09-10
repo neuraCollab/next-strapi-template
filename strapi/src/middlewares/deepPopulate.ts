@@ -87,12 +87,17 @@ export default (config, { strapi }: { strapi: Core.Strapi }) => {
 
       const contentType = extractPathSegment(ctx.request.url)
       const singular = pluralize.singular(contentType)
-      const uid = `api::${singular}.${singular}`
+      const uid = `api::${singular}.${singular}` as UID.Schema
 
-      ctx.query.populate = {
-        // @ts-ignores
-        ...getDeepPopulate(uid),
-        ...(!ctx.request.url.includes("products") && { localizations: { populate: {} } }),
+      // A URL segment that isn't a real content type (a typo, or one that was
+      // removed) has no model to introspect - fall through to Strapi's normal
+      // routing/404 instead of throwing inside getDeepPopulate.
+      if (strapi.getModel(uid)) {
+        ctx.query.populate = {
+          // @ts-ignores
+          ...getDeepPopulate(uid),
+          ...(!ctx.request.url.includes("products") && { localizations: { populate: {} } }),
+        }
       }
     }
     await next()

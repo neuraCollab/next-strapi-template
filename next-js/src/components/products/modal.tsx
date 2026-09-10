@@ -23,13 +23,15 @@ export default function AddToCartModal({ onClick }: { onClick: () => void }) {
             {items.map((item, index) => (
               <div key={"purchased-item" + index} className="flex gap-2 justify-between items-center py-4">
                 <div className="flex items-center gap-4">
-                  <Image
-                    src={item.product?.images && strapiImage(item.product.images[0].url)}
-                    alt={item.product.name}
-                    width={60}
-                    height={60}
-                    className="rounded-lg hidden md:block"
-                  />
+                  {item.product?.images?.[0] && (
+                    <Image
+                      src={strapiImage(item.product.images[0].url)}
+                      alt={item.product.name}
+                      width={60}
+                      height={60}
+                      className="rounded-lg hidden md:block"
+                    />
+                  )}
                   <span className="text-black text-sm md:text-base font-medium"> {item.product.name}</span>
                 </div>
                 <div className="flex items-center">

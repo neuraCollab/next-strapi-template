@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* например, в app/globals.css или style.css */
-@import "swiper/css";
-@import "swiper/css/pagination";
-@import "swiper/css/navigation";
-
 /* Анимированный градиент для scrollbar thumb */
 @keyframes gradient-animation {
   0% {

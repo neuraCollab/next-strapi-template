@@ -29,9 +29,6 @@ type Plan = {
 }
 
 export const Pricing = ({ heading, sub_heading, plans }: { heading: string; sub_heading: string; plans: any[] }) => {
-  const onClick = (plan: Plan) => {
-    console.log("click", plan)
-  }
   return (
     <div className="pt-40">
       <Container>
@@ -42,7 +39,7 @@ export const Pricing = ({ heading, sub_heading, plans }: { heading: string; sub_
         <Subheading className="max-w-3xl mx-auto">{sub_heading}</Subheading>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto gap-4 py-20 lg:items-start">
           {plans.map((plan) => (
-            <Card onClick={() => onClick(plan)} key={plan.name} plan={plan} />
+            <Card key={plan.name} plan={plan} />
           ))}
         </div>
       </Container>
@@ -50,7 +47,7 @@ export const Pricing = ({ heading, sub_heading, plans }: { heading: string; sub_
   )
 }
 
-const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
+const Card = ({ plan }: { plan: Plan }) => {
   return (
     <div
       className={cn(
@@ -83,7 +80,6 @@ const Card = ({ plan, onClick }: { plan: Plan; onClick: () => void }) => {
         <Button
           variant="outline"
           className={cn("w-full mt-10 mb-4", plan.featured && "bg-black text-white hover:bg-black/80 hover:text-white")}
-          onClick={onClick}
         >
           {plan?.CTA?.text}
         </Button>
